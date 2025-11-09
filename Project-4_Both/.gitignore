@@ -1,0 +1,7 @@
+.DS_Store
+Backend/.idea
+Backend/.env
+Backend/mvnw
+Backend/mvnw.cmd
+
+Frontend/node_modules
