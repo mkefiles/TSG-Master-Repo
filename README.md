@@ -1,4 +1,4 @@
-# Master Repo
+# Master Repository
 
 ## Project Listing
 
