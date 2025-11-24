@@ -1,0 +1,86 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: cont-postgres
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_PASSWORD: FinalProject123
+      POSTGRES_DB: final_project
+
+  kafka:
+    image: apache/kafka:3.7.0
+    container_name: cont-kafka-broker
+    restart: always
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: LISTENER_INTERNAL://kafka:29092,LISTENER_EXTERNAL://kafka:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_INTERNAL://kafka:29092,LISTENER_EXTERNAL://host.docker.internal:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_INTERNAL
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: cont-kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: not-used
+
+
+  feedback-api:
+    build:
+      context: ./../tsg-9.27-TheAvengers-feedback-api
+      dockerfile: Dockerfile
+    container_name: feedback-api
+    depends_on:
+      - db
+      - kafka
+    environment:
+
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/final_project
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: FinalProject123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "8080:8080"
+
+  feedback-analytics-consumer:
+    build:
+      context: ./../tsg-9.27-TheAvengers-feedback-analytics-consumer
+      dockerfile: Dockerfile
+    container_name: feedback-analytics-consumer
+    depends_on:
+      - kafka
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+
+    ports:
+      - "8085:8080"
+
+  frontend-feedback-ui:
+    build:
+      context: ./../tsg-9.27-theavengers-frontend-feedback-ui
+    container_name: frontend-feedback-ui
+    ports:
+      - "5173:5173"
+    depends_on:
+      - kafka

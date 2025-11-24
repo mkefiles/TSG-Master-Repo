@@ -10,6 +10,7 @@
 - Project 6 (York - Self Assigned RabbitMQ Project) -- COMPLETE
 - Project 7 (York - Self Assigned RabbitMQ / Spring Project) -- COMPLETE
 - Project 8 (York - Practice Challenge 01) -- COMPLETE
+- Project 9 (York - Final Project) -- COMPLETE
 
 ### Project 1
 This is a *backend* REST API project with made using Javalin. See Project Overview for project-specific information.
@@ -36,3 +37,6 @@ This is a **basic** RabbitMQ project that pulls in Spring. At this point, I was 
 
 ### Project 8
 This is a *backend* project that uses Spring (and Spring Modulith) as well as RabbitMQ. This challenge also uses some basic Unit Tests with Mockito and JUnit. See Project Overview for project-specific information.
+
+### Project 9
+This is a *full-stack* project that uses Spring for the back-end, Kafka (alongside Postgres), PostgreSQL for the database and React for the front-end. Note that there are, also, unit tests with Mockito, MockMVC and JUnit in the API / Consumer code-base.

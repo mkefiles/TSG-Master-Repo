@@ -1,0 +1,9 @@
+.FindFeedbackPage {
+  display: flex;
+  justify-content: space-between; /* spreads them out evenly */
+  gap: 2rem; /* adds space between the two columns */
+}
+
+.FindFeedbackPage > * {
+  flex: 1; /* makes each child take up equal width */
+}
