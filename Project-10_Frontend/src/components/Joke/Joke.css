@@ -1,0 +1,17 @@
+
+.setup, .punchline {
+    color: seagreen;
+    text-align: center;
+}
+
+.warning {
+    color: red;
+}
+
+/* hr:last-of-type{
+    display: none;
+} */
+
+.joke-group:last-of-type > hr {
+    display: none;
+}

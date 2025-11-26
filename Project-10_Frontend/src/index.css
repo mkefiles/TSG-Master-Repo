@@ -1,0 +1,26 @@
+/* Import Site-Wide Font */
+@import url('https://fonts.googleapis.com/css2?family=Eater&display=swap');
+
+* {
+    font-family: "Eater", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
